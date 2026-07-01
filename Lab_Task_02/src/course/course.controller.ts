@@ -1,4 +1,4 @@
-import { BadGatewayException, BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, Put, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { CourseService } from './course.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -51,17 +51,17 @@ export class CourseController {
             },
         }),
         fileFilter: (req, file, cb) => {
-            const allowedExtensions = ['.pdf', '.doc', '.docx', '.ppt', '.pptx'];
+            const allowedExtensions = ['.jpg', '.jpeg', '.png', '.pdf'];
             const fileExtension = extname(file.originalname).toLowerCase();
-            if (allowedExtensions.includes(fileExtension)) {
+            if (!allowedExtensions.includes(fileExtension)) {
                 return cb(
-                    new BadGatewayException('Invalid file type. Only PDF, DOC, DOCX, PPT, and PPTX files are allowed.'),
+                    new BadRequestException('Invalid file type. Only JPG, JPEG, PNG, and PDF files are allowed.'),
                     false,
                 );
             }
             cb(null, true);
         },
-        limits: { fileSize: 5 * 1024 * 1024 },
+        limits: { fileSize: 2 * 1024 * 1024 },
     }),
 )
 uploadCourseMaterial(

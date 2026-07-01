@@ -30,10 +30,10 @@ export class CourseService {
 
     uploadCourseMaterial(id: string, file: Express.Multer.File): any {
         return {
-            message: 'Course material uploaded successfully',
+            message: 'Material uploaded successfully',
             courseId: id,
-            fileName: file.filename,
-            path: file.path,
+            filename: file.filename,
+            path: `uploads/${file.filename}`,
         };
     }
 }
